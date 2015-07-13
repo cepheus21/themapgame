@@ -1,0 +1,57 @@
+import java.util.ArrayList;
+
+public class GalaxyMain{
+public static void main(String[]args) {
+	//String name;
+	int turnNumber = 0;
+	ArrayList<Player> players = new ArrayList<Player>();	
+	makeGame(players);
+	IncrementTurn(players, turnNumber);
+}
+
+private static void makeGame(ArrayList<Player> players){
+	Player john = new Player("Illiun", "john", 1000, 100);
+	Player mary = new Player("Malora", "mary", 1000, 100);
+	players.add(john);
+	players.add(mary);
+	Player.Planet earth = new Player.Planet("Earth", "Terran", "");
+	Player.Planet mars = new Player.Planet("Mars", "Desert", "");
+	Player.Planet saturn = new Player.Planet("Saturn", "Ice", "");
+	Player.Planet pluto = new Player.Planet("Pluto", "Desert", "");
+	john.addPlanet(earth); //adding a planet to a player's array list of planets
+	john.addPlanet(mars);
+	mary.addPlanet(saturn);
+	mary.addPlanet(pluto);
+	players.get(0).printInfo();
+	players.get(1).printInfo();
+	System.out.println("\n---PLANET INFORMATION---\n");
+	john.makeBuilding(earth, "Mine");
+	john.makeBuilding(earth, "Orbital Shipyard");
+	mary.makeBuilding(saturn, "Headquarters");
+	mary.makeBuilding(saturn, "Orbital Mining");
+	john.makeBuilding(mars, "Orbital Shipyard");
+	john.makeBuilding(mars, "Factory");
+	mary.makeBuilding(pluto, "Laboratory");
+	mary.makeBuilding(pluto, "Orbital Banking");
+	john.makeShipClass("Recon", "Scout");
+	john.makeShip(john.ship_classes.get(0), earth);
+	players.get(0).planets.get(0).printInfo();
+	players.get(0).planets.get(1).printInfo();
+	players.get(1).planets.get(0).printInfo();
+	players.get(1).planets.get(1).printInfo();
+	john.printInfo();
+	mary.printInfo();
+	System.out.println("");
+	System.out.println("");
+	System.out.println("");
+
+	}
+
+	private static void IncrementTurn(ArrayList<Player> players, int turn){
+		turn+=1;
+		for(int i = 0; i < players.size(); i++){
+		players.get(i).generateEconomy();
+		System.out.println("\nTurn Number: " + turn + "\nPlayer name: " + players.get(i).getPName() + "\nNation Name: " + players.get(i).getNName() + "\nMoney: " + players.get(i).getBank() + "\nProduction: " + players.get(i).getProd() + "\nTotal Spendable Production: " + players.get(i).getTotal(players.get(i).getProd(), players.get(i).getBank()));
+		}
+	}
+}
