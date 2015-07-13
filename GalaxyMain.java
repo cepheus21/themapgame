@@ -1,3 +1,5 @@
+package themapgame;
+
 import java.util.ArrayList;
 
 public class GalaxyMain{
@@ -14,10 +16,10 @@ private static void makeGame(ArrayList<Player> players){
 	Player mary = new Player("Malora", "mary", 1000, 100);
 	players.add(john);
 	players.add(mary);
-	Player.Planet earth = new Player.Planet("Earth", "Terran", "");
-	Player.Planet mars = new Player.Planet("Mars", "Desert", "");
-	Player.Planet saturn = new Player.Planet("Saturn", "Ice", "");
-	Player.Planet pluto = new Player.Planet("Pluto", "Desert", "");
+	Planet earth = new Planet("Earth", "Terran", null);
+	Planet mars = new Planet("Mars", "Desert", null);
+	Planet saturn = new Planet("Saturn", "Ice", null);
+	Planet pluto = new Planet("Pluto", "Desert", null);
 	john.addPlanet(earth); //adding a planet to a player's array list of planets
 	john.addPlanet(mars);
 	mary.addPlanet(saturn);
