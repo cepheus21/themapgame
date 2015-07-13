@@ -1,40 +1,57 @@
 import java.util.ArrayList;
 public  class Player {
-	String Nation_name;
-	String Player_name;
-	double bank;
-	int trade;
-	static int player_diplomacy;
-	static int player_espionage;
-	int research;
-	boolean trading = false;
-	static double player_production;
-	static double econ_to_prod = 2;
-	ArrayList<Ships> fleets = new ArrayList<Ships>();
-	ArrayList<Ships> ship_classes = new ArrayList<Ships>();
-	boolean at_war = false;
-	ArrayList<Planet> planets = new ArrayList<Planet>();
+	String Nation_name; //the name of the nation the player plays as
+	String Player_name; //the owner of the nation, the name of the player themself
+	double bank; //the amount of raw currency, think $$$
+	int trade; //how much the player is making from trade;
+	static int player_diplomacy; //the count of diplomatic pull a player has
+	static int player_espionage; //the count of intrigue the player has
+	int research; //the amount of research the player has generated
+	boolean trading = false; //whether or not a player is trading
+	static double player_production; //the count of production a player has
+	static double econ_to_prod = 2; //the conversion ratio from $$$ to production
+	ArrayList<Ships> fleets = new ArrayList<Ships>(); //the container for various fleets of composition and sizes
+	ArrayList<Ships> ship_classes = new ArrayList<Ships>(); //the container for various ship classes
+	boolean at_war = false; //whether or not the player is at war
+	ArrayList<Planet> planets = new ArrayList<Planet>(); //the container for all of the planets the player has control over
 	
+	/* Function: addPlanet
+		Adds a planet to a player's economy and empire. Adds 'planet' to the player's ArrayList of planets. 'planet''s 
+		'Owner' String variable is also changed accordingly.
+		
+		Returns: void
+		
+		See also: removePlanet
+	*/
 	public void addPlanet(Planet planet){
 		planets.add(planet);
 		planet.setOwner(this.getNName());
 	}
+	/* Function: removePlanet
+		Removes a planet from a player's economy and empire. Removes 'planet' from the player's ArrayList of planets.
+		'planet''s 'Owner' String variable is also changed accordingly.
+	
+	*/
 	public void removePlanet(Planet planet){
 		int placeholder = planets.indexOf(planet);
+		planet.setOwner("");
 		planets.remove(placeholder);
 	}
+	//setter and getter for the Player Name
 	public void setPName(String name){
 		Player_name = name;
 	}
 	public String getPName(){
 		return Player_name;
 	}
+	//setter and getter for the Nation Name
 	public void setNName(String name){
 		Nation_name = name;
 	}
 		public String getNName(){
 		return Nation_name;
 	}
+	//getter, adder and subtracter for Bank, not sure how setting a lesser or negative number would work
 	public void addBank(double money){
 		bank += money;
 	}
@@ -44,6 +61,7 @@ public  class Player {
 	public double getBank(){
 		return bank;
 	}
+	//getter, adder and subtracter for Production, not sure how setting a lesser or negative number would work
 	public void addProd(double prod){
 		player_production += prod;
 	}
@@ -53,11 +71,12 @@ public  class Player {
 	public double getProd(){
 		return player_production;
 	}
+	//a getter for the total spendable production
 	public double getTotal(double prod, double money){
 		double total_spendable = prod + money * econ_to_prod;
 		return total_spendable;
 	}
-	
+	//Used to confirm the operation of various commands. Easier than looking up the individual memory locations
 	public void printInfo(){
 		System.out.println("Player name: " + this.getPName());
 		System.out.println("Nation name: " + this. getNName());
@@ -71,10 +90,12 @@ public  class Player {
 		System.out.println("Total Spendable Production: " + getTotal(getProd(), getBank()) + "\n");
 		
 	}
-	
+	//Create building 'buidling' on planet 'planet', and adding it to the planet's building ArrayList
 	public void makeBuilding(Planet planet, String building){
 		planet.addBuilding(building);
 	}
+	//Using the planets in the player's planet's arraylist, this pulls the economic data of the planets and compiles them
+	into variables that are fed into the player's overall economy.
 	public void generateEconomy(){
 		double credits = 0;
 		double prod = 0;
@@ -85,12 +106,12 @@ public  class Player {
 		this.addBank(credits);
 		this.addProd(prod);
 	}
-	
+	//Create a ship class, or an overall ship archetype
 public void makeShipClass(String Name, String Class_type){
-	ship_classes.add(new Player.Ships(Name, Class_type)); //how to dynamically make objects based on input?
+	ship_classes.add(new Player.Ships(Name, Class_type));
 	System.out.println("Ship class " + ship_classes.get(0).getClassType() + " has been designed.");
 	}
-	
+	//Create individual ships, and clarifying the location where they're constructed.
 	public void makeShip(Ships ship, Planet planet){
 		player_production -= ship.getCost();
 		fleets.add(ship);
